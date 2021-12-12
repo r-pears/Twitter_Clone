@@ -367,6 +367,12 @@ def homepage():
         return render_template('home-anon.html')
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    """Return a 404 page when page not found."""
+
+    return render_template('404.html'), 404
+
 ##############################################################################
 # Turn off all caching in Flask
 #   (useful for dev; in production, this kind of stuff is typically
