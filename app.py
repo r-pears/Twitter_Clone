@@ -216,7 +216,7 @@ def show_user_likes(user_id):
     if not g.user:
         flash('Access unauthorized.', 'danger')
         return redirect('/')
-    
+
     user = User.query.get_or_404(user_id)
     return render_template('users/likes.html', user=user, likes=user.likes)
 
@@ -228,7 +228,7 @@ def toggle_like(message_id):
     if not g.user:
         flash('Access unauthorized', 'danger')
         return redirect('/')
-    
+
     liked_message = Message.query.get_or_404(message_id)
     if liked_message.user_id == g.user.id:
         return abort(403)
@@ -252,7 +252,7 @@ def profile():
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
-    
+
     user = g.user
     form = EditUser(obj=user)
 
