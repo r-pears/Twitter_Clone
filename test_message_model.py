@@ -29,6 +29,7 @@ from app import app
 
 db.create_all()
 
+
 class MessageModelTestCase(TestCase):
     """Test models for messages."""
 
@@ -77,7 +78,7 @@ class MessageModelTestCase(TestCase):
 
         db.session.add_all([msg1, msg2, u])
         db.session.commit()
-        
+
         likes = Likes.query.filter(Likes.user_id == uid).all()
 
         self.assertEqual(len(likes), 2)

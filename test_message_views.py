@@ -48,7 +48,7 @@ class MessageViewTestCase(TestCase):
                                     email="test@test.com",
                                     password="testuser",
                                     image_url=None)
-        
+
         self.testuser_id = 9999
         self.testuser.id = self.testuser_id
 
@@ -90,12 +90,12 @@ class MessageViewTestCase(TestCase):
         with self.client as c:
             with c.session_transaction() as session:
                 session[CURR_USER_KEY] = 2398577
-            
+
             resp = c.post('/messages/new', data={'text': 'new message'}, follow_redirects=True)
 
             sef.assertEqual(resp.status_code, 200)
             self.assertIn('Access unauthorized', str(resp.data))
-        
+
     def test_show_message(self):
         """Test show message."""
 
@@ -107,25 +107,25 @@ class MessageViewTestCase(TestCase):
         with self.client as c:
             with c.session_transaction() as session:
                 session[CURR_USER_KEY] = self.testuser.id
-            
+
             message = Message.query.get(2000)
 
             resp = c.get(f'/messages/{message.id}')
 
             self.assertEqual(resp.status_code, 200)
             self.assertIn(message.text, str(resp.data))
-    
+
     def test_invalid_message(self):
         """Test if the message id exists."""
 
         with self.client as c:
             with c.session_transaction() as session:
                 session[CURR_USER_KEY] = self.testuser.id
-            
+
             resp = c.get('/messages/9999999')
 
             self.assertEqual(resp.status_code, 404)
-    
+
     def test_delete_message(self):
         """Test deleting message."""
 
@@ -137,15 +137,15 @@ class MessageViewTestCase(TestCase):
         with self.client as c:
             with c.session_transaction() as session:
                 session[CURR_USER_KEY] = self.testuser.id
-            
+
             resp = c.post('/messages/1212/delete', follow_redirects=True)
 
             self.assertEqual(resp.status_code, 200)
 
             message = Message.query.get(1212)
-            
+
             self.assertIsNone(message)
-        
+
     def test_unauthorized_delete_message(self):
         """Test if user trying to delete a message someone else wrote."""
 

@@ -103,7 +103,7 @@ class UserModelTestCase(TestCase):
 
         self.assertTrue(self.u1.is_following(self.u2))
         self.assertFalse(self.u2.is_following(self.u1))
-    
+
     def test_user_followed(self):
         """Test if user 2 is followed by user 1."""
 
@@ -112,7 +112,7 @@ class UserModelTestCase(TestCase):
 
         self.assertTrue(self.u2.is_followed_by(self.u1))
         self.assertFalse(self.u1.is_followed_by(self.u2))
-    
+
     def test_valid_signup(self):
         """Test if user succesfully signs up."""
 
@@ -139,19 +139,19 @@ class UserModelTestCase(TestCase):
 
     def test_email_signup(self):
         """Test if email is valid."""
-        
+
         invalid_user = User.signup('testname', None, 'password', None)
         iuid = 1234
         invalid_user.id = iuid
         with self.assertRaises(exc.IntegrityError) as context:
             db.session.commit()
-    
+
     def test_password_signup(self):
         """Test if password is valid."""
 
         with self.assertRaises(ValueError) as context:
             User.signup('testname', 'test@email.com', '', None)
-        
+
         with self.assertRaises(ValueError) as context:
             User.signup('testname', 'test@email.com', None, None)
 
@@ -161,7 +161,7 @@ class UserModelTestCase(TestCase):
         user = User.authenticate(self.u1.username, 'password')
         self.assertIsNotNone(user)
         self.assertEqual(u.id, self.u1id)
-    
+
     def test_valid_username(self):
         """Test username authentication."""
 

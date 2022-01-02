@@ -69,7 +69,7 @@ class UserViewTestCase(TestCase):
         resp = super().tearDown()
         db.session.rollback()
         return resp
-    
+
     def test_show_users(self):
         """Test that all users are in the data."""
 
@@ -104,7 +104,7 @@ class UserViewTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
 
             self.assertIn('@testuser', str(resp.data))
-    
+
     def setup_likes_for_test(self):
         """Setup data to test likes."""
 
@@ -182,7 +182,7 @@ class UserViewTestCase(TestCase):
             resp = c.post(f'/users/add_like/{message.id}', follow_redirect=True)
             self.assertEqual(resp.status_code, 200)
 
-            like = Likes.query.filter(Likes.message_id==m.id),all()
+            like = Likes.query.filter(Likes.message_id==m.id).all()
 
             self.assertEqual(len(like), 0)
 
@@ -260,7 +260,7 @@ class UserViewTestCase(TestCase):
         with self.client as c:
             with c.session_transaction as session:
                 session[CURR_USER_KEY] = self.testuser_id
-            
+
             resp = c.get(f'/users/{self.testuser_id}/followers')
 
             self.assertIn('@user1', str(resp.data))
